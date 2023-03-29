@@ -1,9 +1,5 @@
 import Teams from '../models/Teams';
 
-const findAllTeams = async () => {
-  const teams = await Teams.findAll();
-  console.log(teams);
-  return teams;
-};
+export const findAllTeams = async () => Teams.findAll();
 
-export default findAllTeams;
+export const findTeamById = async (id: number) => Teams.findByPk(id);
