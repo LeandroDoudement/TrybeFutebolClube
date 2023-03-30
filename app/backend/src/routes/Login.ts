@@ -1,7 +1,9 @@
 import { Router } from 'express';
-import login from '../database/controllers/Login';
+import { login, loginUserRole } from '../database/controllers/Login';
+
 import {
   validateEmail,
+  validateToken,
   verifyEmail,
   verifyPassword,
 } from '../database/middlewares/loginValidation';
@@ -9,5 +11,6 @@ import {
 const loginRouter = Router();
 
 loginRouter.post('/', validateEmail, verifyEmail, verifyPassword, login);
+loginRouter.get('/role', validateToken, loginUserRole);
 
 export default loginRouter;

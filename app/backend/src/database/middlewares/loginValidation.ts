@@ -1,6 +1,10 @@
 import { Request, Response, NextFunction } from 'express';
+import * as dotenv from 'dotenv';
+import { verify } from 'jsonwebtoken';
 import { findByEmail } from '../services/Login';
 
+dotenv.config();
+const { JWT_SECRET } = process.env;
 const invalidLoginMessage = 'Invalid email or password';
 
 export const validateEmail = async (
@@ -47,4 +51,23 @@ export const verifyPassword = async (
   next();
 };
 
-export default verifyEmail;
+const verifyToken = (token: string) => verify(token, JWT_SECRET || 'secret');
+
+export const validateToken = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  try {
+    const token = req.header('Authorization');
+    if (!token) {
+      return res.status(401).json({ message: 'Token not found' });
+    }
+
+    const payload = verifyToken(token);
+    req.body.data = payload;
+    next();
+  } catch (error) {
+    res.status(401).json({ message: 'Token must be a valid token' });
+  }
+};
