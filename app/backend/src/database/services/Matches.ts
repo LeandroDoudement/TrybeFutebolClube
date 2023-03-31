@@ -31,3 +31,16 @@ export const findMatchesInProgress = async (inProgress: string) => {
 export const finishMatch = async (id: string): Promise<void> => {
   await Matches.update({ inProgress: false }, { where: { id: Number(id) } });
 };
+
+interface MatchI {
+  homeTeamGoals: string;
+  awayTeamGoals: string;
+}
+
+export const updateMatch = async (id: string, match: MatchI): Promise<void> => {
+  const { homeTeamGoals, awayTeamGoals } = match;
+  await Matches.update(
+    { homeTeamGoals, awayTeamGoals },
+    { where: { id: Number(id) } },
+  );
+};

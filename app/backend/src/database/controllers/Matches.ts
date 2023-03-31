@@ -3,6 +3,7 @@ import {
   findAllMatches,
   findMatchesInProgress,
   finishMatch,
+  updateMatch,
 } from '../services/Matches';
 
 export const getAllMatches = async (req: Request, res: Response) => {
@@ -19,4 +20,11 @@ export const endMatch = async (req: Request, res: Response) => {
   const { id } = req.params;
   await finishMatch(id as string);
   return res.status(200).json({ message: 'Finished' });
+};
+
+export const changeMatch = async (req: Request, res: Response) => {
+  const { id } = req.params;
+  const match = req.body;
+  await updateMatch(id, match);
+  return res.status(200).json({ message: 'Updated' });
 };
