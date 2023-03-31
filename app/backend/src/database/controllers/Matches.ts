@@ -1,10 +1,13 @@
 import { Response, Request } from 'express';
-import { findAllMatches, findMatchesInProgress } from '../services/Matches';
+import {
+  findAllMatches,
+  findMatchesInProgress,
+  finishMatch,
+} from '../services/Matches';
 
-const getAllMatches = async (req: Request, res: Response) => {
+export const getAllMatches = async (req: Request, res: Response) => {
   const { inProgress } = req.query;
   if (inProgress === 'true' || inProgress === 'false') {
-    console.log('entrou');
     const inProgressMatches = await findMatchesInProgress(inProgress);
     return res.status(200).json(inProgressMatches);
   }
@@ -12,4 +15,8 @@ const getAllMatches = async (req: Request, res: Response) => {
   return res.status(200).json(allMatches);
 };
 
-export default getAllMatches;
+export const endMatch = async (req: Request, res: Response) => {
+  const { id } = req.params;
+  await finishMatch(id as string);
+  return res.status(200).json({ message: 'Finished' });
+};

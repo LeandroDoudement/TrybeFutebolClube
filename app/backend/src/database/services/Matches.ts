@@ -27,3 +27,7 @@ export const findMatchesInProgress = async (inProgress: string) => {
   });
   return result;
 };
+
+export const finishMatch = async (id: string): Promise<void> => {
+  await Matches.update({ inProgress: false }, { where: { id: Number(id) } });
+};
