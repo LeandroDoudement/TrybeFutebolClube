@@ -1,7 +1,7 @@
 import Matches from '../models/Matches';
 import Teams from '../models/Teams';
 
-const findAllMatches = async () => {
+export const findAllMatches = async () => {
   const result = await Matches.findAll({
     include: [
       { model: Teams, as: 'homeTeam', attributes: { exclude: ['id'] } },
@@ -11,4 +11,19 @@ const findAllMatches = async () => {
   return result;
 };
 
-export default findAllMatches;
+export const findMatchesInProgress = async (inProgress: string) => {
+  const result = await Matches.findAll({
+    where: { inProgress: JSON.parse(inProgress.toLowerCase()) },
+    include: [
+      {
+        model: Teams,
+        as: 'awayTeam',
+      },
+      {
+        model: Teams,
+        as: 'homeTeam',
+      },
+    ],
+  });
+  return result;
+};
