@@ -44,3 +44,15 @@ export const updateMatch = async (id: string, match: MatchI): Promise<void> => {
     { where: { id: Number(id) } },
   );
 };
+
+interface NewMatchI {
+  homeTeamId: number;
+  awayTeamId: number;
+  homeTeamGoals: number;
+  awayTeamGoals: number;
+}
+
+export const insertNewMatch = async (newMatch: NewMatchI) => {
+  const result = await Matches.create({ ...newMatch, inProgress: true });
+  return result;
+};
