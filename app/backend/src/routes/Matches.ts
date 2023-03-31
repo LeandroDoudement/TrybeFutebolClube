@@ -1,4 +1,5 @@
 import { Router } from 'express';
+import validateNewMatch from '../database/middlewares/matchesValidation';
 import {
   getAllMatches,
   endMatch,
@@ -12,6 +13,6 @@ const matchesRouter = Router();
 matchesRouter.get('/', getAllMatches);
 matchesRouter.patch('/:id/finish', validateToken, endMatch);
 matchesRouter.patch('/:id', validateToken, changeMatch);
-matchesRouter.post('/', validateToken, createNewMatch);
+matchesRouter.post('/', validateToken, validateNewMatch, createNewMatch);
 
 export default matchesRouter;
