@@ -14,44 +14,59 @@ class Matches extends Model {
 Matches.init(
   {
     id: {
-      type: INTEGER,
       allowNull: false,
-      primaryKey: true,
       autoIncrement: true,
+      primaryKey: true,
+      type: INTEGER,
     },
     homeTeamId: {
       type: INTEGER,
       allowNull: false,
+      onUpdate: 'CASCADE',
+      onDelete: 'CASCADE',
+      field: 'home_team_id',
+      references: {
+        model: 'teams',
+        key: 'id',
+      },
     },
     homeTeamGoals: {
-      type: INTEGER,
       allowNull: false,
+      type: INTEGER,
+      field: 'home_team_goals',
     },
     awayTeamId: {
       type: INTEGER,
       allowNull: false,
+      onUpdate: 'CASCADE',
+      onDelete: 'CASCADE',
+      field: 'away_team_id',
+      references: {
+        model: 'teams',
+        key: 'id',
+      },
     },
     awayTeamGoals: {
-      type: INTEGER,
       allowNull: false,
+      type: INTEGER,
+      field: 'away_team_goals',
     },
     inProgress: {
-      type: BOOLEAN,
       allowNull: false,
+      type: BOOLEAN,
+      field: 'in_progress',
     },
   },
   {
     sequelize: db,
     underscored: true,
-    modelName: 'Matches',
+    tableName: 'matches',
     timestamps: false,
   },
 );
-
-Teams.belongsTo(Matches, { foreignKey: 'id', as: 'homeTeam' });
-Teams.belongsTo(Matches, { foreignKey: 'id', as: 'awayTeam' });
-
-Matches.hasMany(Teams, { foreignKey: 'home_team_id', as: 'homeTeam' });
-Matches.hasMany(Teams, { foreignKey: 'away_team_id', as: 'awayTeam' });
+Teams.hasMany(Matches, { foreignKey: 'homeTeamId', as: 'homeMatch' });
+Teams.hasMany(Matches, { foreignKey: 'awayTeamId', as: 'awayMatch' });
+Matches.belongsTo(Teams, { foreignKey: 'homeTeamId', as: 'homeTeam' });
+Matches.belongsTo(Teams, { foreignKey: 'awayTeamId', as: 'awayTeam' });
 
 export default Matches;
