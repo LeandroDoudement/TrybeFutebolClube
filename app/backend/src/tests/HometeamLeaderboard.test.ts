@@ -4,18 +4,8 @@ import * as chai from 'chai';
 import chaiHttp = require('chai-http');
 
 import { app } from '../app';
-import Example from '../database/models/ExampleModel';
-import {
-  userOneResponse,
-  userOneRequest,
-  userOnePayload,
-} from './mocks/Login.mock';
-import { Response } from 'superagent';
-import Users from '../database/models/Users';
-import { sign } from 'jsonwebtoken';
 import * as dotenv from 'dotenv';
 dotenv.config();
-const { JWT_SECRET } = process.env;
 import homeTeamLeaderboardMock from './mocks/HometeamLeaderboard.mock';
 chai.use(chaiHttp);
 
