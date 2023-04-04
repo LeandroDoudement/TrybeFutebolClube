@@ -115,4 +115,10 @@ describe('Testes da rota /login', async () => {
     expect(httpResponse.status).to.equal(200);
     expect(httpResponse.body).to.be.deep.equal({ role: userOnePayload.role });
   });
+
+  it('Retorna Token not found se não houver um token do usuario logado', async () => {
+    const httpResponse = await chai.request(app).get('/login/role');
+    expect(httpResponse.status).to.equal(401);
+    expect(httpResponse.body).to.be.deep.equal({ message: 'Token not found' });
+  });
 });
