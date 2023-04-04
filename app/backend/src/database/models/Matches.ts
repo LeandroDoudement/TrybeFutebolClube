@@ -32,6 +32,7 @@ Matches.init(
     },
     homeTeamGoals: {
       allowNull: false,
+      defaultValue: 0,
       type: INTEGER,
       field: 'home_team_goals',
     },
