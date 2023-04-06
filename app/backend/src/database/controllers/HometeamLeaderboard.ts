@@ -1,8 +1,8 @@
 import { Request, Response } from 'express';
-import getHomeLeaderboard from '../services/HometeamLeaderboard';
+import sortLeaderboard from '../services/HometeamLeaderboard';
 
 const leaderboard = async (_req: Request, res: Response) => {
-  const homeTeamLeaderboard = await getHomeLeaderboard();
+  const homeTeamLeaderboard = await sortLeaderboard();
   res.status(200).json(homeTeamLeaderboard);
 };
 
